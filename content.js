@@ -11,9 +11,42 @@ chrome.runtime.onMessage.addListener(
   }
 );
 
+var aTags = [];
+var first = "";
+var second = "";
+var wikipediaLink = "https://en.wikipedia.org/wiki/";
+
 function parseValue(value) {
 	var words = value.split(" ");
-	var first = words[0];
-	var second = words[1];
-	alert(first + "    " + second);
+	first = words[0];
+	second = words[1];
+	var firstLink = wikipediaLink + first;
+	
+	visitLink(firstLink);
+}
+
+function visitLink(link) {
+	window.location.href = link;
+	
+	analyzeLink(link);
+}
+
+function analyzeLink(link) {
+	if(link.search(second) != -1) {
+		finish()
+		return null;
+	}
+	var content = document.getElementById("mw-content-text");
+	var pTags = content.getElementsByTagName("p");
+	for each(p in pTags) {
+		var links = p.getElementsByTagName("a");
+		for each(a in links) {
+			var href = a.href;
+			var word = href.substr(6, href.length);
+			aTags.push(a);
+		}
+	}
+}
+
+function finish() {
 }
