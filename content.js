@@ -30,32 +30,31 @@ function parseValue(value) {
 function visitLink(link) {
 	window.location.href = link;
 
-	var elementToCheck = breadthPath.shift();
-	if(elementToCheck[elementToCheck.length - 1].equalsIgnoreCase(second)) {
+	var elementToCheck = breadthPath.shift();	
+	var toCheck = elementToCheck[elementToCheck.length -1].toLowerCase();
+	
+	if(toCheck == second.toLowerCase()) {
 		finish(elementToCheck);
 		return;
 	}
 	else {
 		var content = document.getElementById("mw-content-text");
-		var pTags = content.getElementsByTagName("p");
-		for each(p in breadthPath) {
-			var links = p.getElementsByTagName("a");
-			for each(a in links) {
-				var href = a.href;
-				var word = href.substr(6, href.length);	
-				
-				elementToCheck.push(word);
-				breadthPath.push(elementToCheck);
-				
-			}
-		}
+		var aTags = content.getElementsByTagName("a");
+		for(var i = 0; i < aTags.length; i++) {
+			var a = aTags[i];
+			var href = a.getAttribute('href');
+			var word = href.substr(6, href.length);	
+			console.log(word);
+			elementToCheck.push(word);
+			breadthPath.push(elementToCheck);
+		}	
 		visitLink(wikipediaLink + breadthPath[0][0]);
 	}
 }
 
 function finish(array) {
 	var path = "";
-	for each(word in array) {
+	for(var word in array) {
 		path += (word + "\n");
 	}
 	alert(path);
