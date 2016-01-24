@@ -18,6 +18,8 @@ var second = "";
 var wikipediaLink = "https://en.wikipedia.org/wiki/";
 
 function parseValue(value) {
+	check = true;
+	breadthPath = [];
 	var words = value.split(" ");
 	first = words[0];
 	second = words[1];
@@ -37,12 +39,10 @@ function visitLink(link, maximum) {
 	if(toCheck == second.toLowerCase()) {
 		check = false;
 		finish(elementToCheck);
-		breadthPath = [];
 		return;
 	}
 	else if(maximum >= 1000 && check) {
 		finish(elementToCheck);
-		breadthPath = [];
 		return;
 	}
 	else {
@@ -61,7 +61,7 @@ function visitLink(link, maximum) {
 					}
 					else {
 						var words = word.split(' ');
-						if(words.length > 2) {
+						if(words.length > 1) {
 						}
 						else {
 							word = words.join('_');
@@ -69,7 +69,7 @@ function visitLink(link, maximum) {
 							number++;
 						}
 					}
-					if(number >= 50) {
+					if(number >= 10) {
 						break;
 					}		
 				}
